@@ -1,0 +1,4523 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+        <meta charset="utf-8" />
+        <title>apqlzm blog - python pandas eska rock radio data analysis</title>
+        <link rel="stylesheet" href="http://apqlzm.github.io/theme/css/main.css" />
+        <link href="http://apqlzm.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="apqlzm blog Atom Feed" />
+
+        <!--[if IE]>
+            <script src="https://html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+        <![endif]-->
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="http://apqlzm.github.io/">apqlzm blog </a></h1>
+                <nav><ul>
+                    <li><a href="http://apqlzm.github.io/category/posts.html">posts</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="http://apqlzm.github.io/eska-data-analysis.html">Dlaczego stacje radiowe się nudzą?</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2018-11-05T20:00:00+01:00">
+                Published: pon 05 listopada 2018
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="http://apqlzm.github.io/author/apqlzm.html">apqlzm</a>
+        </address>
+<p>In <a href="http://apqlzm.github.io/category/posts.html">posts</a>.</p>
+<p>tags: <a href="http://apqlzm.github.io/tag/python-pandas-eska-rock-radio-data-analysis.html">python pandas eska rock radio data analysis</a> </p>
+</footer><!-- /.post-info --><style type="text/css">/*!
+*
+* IPython notebook
+*
+*/
+/* CSS font colors for translated ANSI escape sequences */
+/* The color values are a mix of
+   http://www.xcolors.net/dl/baskerville-ivorylight and
+   http://www.xcolors.net/dl/euphrasia */
+.ansi-black-fg {
+  color: #3E424D;
+}
+.ansi-black-bg {
+  background-color: #3E424D;
+}
+.ansi-black-intense-fg {
+  color: #282C36;
+}
+.ansi-black-intense-bg {
+  background-color: #282C36;
+}
+.ansi-red-fg {
+  color: #E75C58;
+}
+.ansi-red-bg {
+  background-color: #E75C58;
+}
+.ansi-red-intense-fg {
+  color: #B22B31;
+}
+.ansi-red-intense-bg {
+  background-color: #B22B31;
+}
+.ansi-green-fg {
+  color: #00A250;
+}
+.ansi-green-bg {
+  background-color: #00A250;
+}
+.ansi-green-intense-fg {
+  color: #007427;
+}
+.ansi-green-intense-bg {
+  background-color: #007427;
+}
+.ansi-yellow-fg {
+  color: #DDB62B;
+}
+.ansi-yellow-bg {
+  background-color: #DDB62B;
+}
+.ansi-yellow-intense-fg {
+  color: #B27D12;
+}
+.ansi-yellow-intense-bg {
+  background-color: #B27D12;
+}
+.ansi-blue-fg {
+  color: #208FFB;
+}
+.ansi-blue-bg {
+  background-color: #208FFB;
+}
+.ansi-blue-intense-fg {
+  color: #0065CA;
+}
+.ansi-blue-intense-bg {
+  background-color: #0065CA;
+}
+.ansi-magenta-fg {
+  color: #D160C4;
+}
+.ansi-magenta-bg {
+  background-color: #D160C4;
+}
+.ansi-magenta-intense-fg {
+  color: #A03196;
+}
+.ansi-magenta-intense-bg {
+  background-color: #A03196;
+}
+.ansi-cyan-fg {
+  color: #60C6C8;
+}
+.ansi-cyan-bg {
+  background-color: #60C6C8;
+}
+.ansi-cyan-intense-fg {
+  color: #258F8F;
+}
+.ansi-cyan-intense-bg {
+  background-color: #258F8F;
+}
+.ansi-white-fg {
+  color: #C5C1B4;
+}
+.ansi-white-bg {
+  background-color: #C5C1B4;
+}
+.ansi-white-intense-fg {
+  color: #A1A6B2;
+}
+.ansi-white-intense-bg {
+  background-color: #A1A6B2;
+}
+.ansi-default-inverse-fg {
+  color: #FFFFFF;
+}
+.ansi-default-inverse-bg {
+  background-color: #000000;
+}
+.ansi-bold {
+  font-weight: bold;
+}
+.ansi-underline {
+  text-decoration: underline;
+}
+/* The following styles are deprecated an will be removed in a future version */
+.ansibold {
+  font-weight: bold;
+}
+.ansi-inverse {
+  outline: 0.5px dotted;
+}
+/* use dark versions for foreground, to improve visibility */
+.ansiblack {
+  color: black;
+}
+.ansired {
+  color: darkred;
+}
+.ansigreen {
+  color: darkgreen;
+}
+.ansiyellow {
+  color: #c4a000;
+}
+.ansiblue {
+  color: darkblue;
+}
+.ansipurple {
+  color: darkviolet;
+}
+.ansicyan {
+  color: steelblue;
+}
+.ansigray {
+  color: gray;
+}
+/* and light for background, for the same reason */
+.ansibgblack {
+  background-color: black;
+}
+.ansibgred {
+  background-color: red;
+}
+.ansibggreen {
+  background-color: green;
+}
+.ansibgyellow {
+  background-color: yellow;
+}
+.ansibgblue {
+  background-color: blue;
+}
+.ansibgpurple {
+  background-color: magenta;
+}
+.ansibgcyan {
+  background-color: cyan;
+}
+.ansibggray {
+  background-color: gray;
+}
+div.cell {
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  border-radius: 2px;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  border-width: 1px;
+  border-style: solid;
+  border-color: transparent;
+  width: 100%;
+  padding: 5px;
+  /* This acts as a spacer between cells, that is outside the border */
+  margin: 0px;
+  outline: none;
+  position: relative;
+  overflow: visible;
+}
+div.cell:before {
+  position: absolute;
+  display: block;
+  top: -1px;
+  left: -1px;
+  width: 5px;
+  height: calc(100% +  2px);
+  content: '';
+  background: transparent;
+}
+div.cell.jupyter-soft-selected {
+  border-left-color: #E3F2FD;
+  border-left-width: 1px;
+  padding-left: 5px;
+  border-right-color: #E3F2FD;
+  border-right-width: 1px;
+  background: #E3F2FD;
+}
+@media print {
+  div.cell.jupyter-soft-selected {
+    border-color: transparent;
+  }
+}
+div.cell.selected,
+div.cell.selected.jupyter-soft-selected {
+  border-color: #ababab;
+}
+div.cell.selected:before,
+div.cell.selected.jupyter-soft-selected:before {
+  position: absolute;
+  display: block;
+  top: -1px;
+  left: -1px;
+  width: 5px;
+  height: calc(100% +  2px);
+  content: '';
+  background: #42A5F5;
+}
+@media print {
+  div.cell.selected,
+  div.cell.selected.jupyter-soft-selected {
+    border-color: transparent;
+  }
+}
+.edit_mode div.cell.selected {
+  border-color: #66BB6A;
+}
+.edit_mode div.cell.selected:before {
+  position: absolute;
+  display: block;
+  top: -1px;
+  left: -1px;
+  width: 5px;
+  height: calc(100% +  2px);
+  content: '';
+  background: #66BB6A;
+}
+@media print {
+  .edit_mode div.cell.selected {
+    border-color: transparent;
+  }
+}
+.prompt {
+  /* This needs to be wide enough for 3 digit prompt numbers: In[100]: */
+  min-width: 14ex;
+  /* This padding is tuned to match the padding on the CodeMirror editor. */
+  padding: 0.4em;
+  margin: 0px;
+  font-family: monospace;
+  text-align: right;
+  /* This has to match that of the the CodeMirror class line-height below */
+  line-height: 1.21429em;
+  /* Don't highlight prompt number selection */
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  /* Use default cursor */
+  cursor: default;
+}
+@media (max-width: 540px) {
+  .prompt {
+    text-align: left;
+  }
+}
+div.inner_cell {
+  min-width: 0;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  /* Old browsers */
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+  /* Modern browsers */
+  flex: 1;
+}
+/* input_area and input_prompt must match in top border and margin for alignment */
+div.input_area {
+  border: 1px solid #cfcfcf;
+  border-radius: 2px;
+  background: #f7f7f7;
+  line-height: 1.21429em;
+}
+/* This is needed so that empty prompt areas can collapse to zero height when there
+   is no content in the output_subarea and the prompt. The main purpose of this is
+   to make sure that empty JavaScript output_subareas have no height. */
+div.prompt:empty {
+  padding-top: 0;
+  padding-bottom: 0;
+}
+div.unrecognized_cell {
+  padding: 5px 5px 5px 0px;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: horizontal;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+div.unrecognized_cell .inner_cell {
+  border-radius: 2px;
+  padding: 5px;
+  font-weight: bold;
+  color: red;
+  border: 1px solid #cfcfcf;
+  background: #eaeaea;
+}
+div.unrecognized_cell .inner_cell a {
+  color: inherit;
+  text-decoration: none;
+}
+div.unrecognized_cell .inner_cell a:hover {
+  color: inherit;
+  text-decoration: none;
+}
+@media (max-width: 540px) {
+  div.unrecognized_cell > div.prompt {
+    display: none;
+  }
+}
+div.code_cell {
+  /* avoid page breaking on code cells when printing */
+}
+@media print {
+  div.code_cell {
+    page-break-inside: avoid;
+  }
+}
+/* any special styling for code cells that are currently running goes here */
+div.input {
+  page-break-inside: avoid;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: horizontal;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+@media (max-width: 540px) {
+  div.input {
+    /* Old browsers */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-box-align: stretch;
+    display: -moz-box;
+    -moz-box-orient: vertical;
+    -moz-box-align: stretch;
+    display: box;
+    box-orient: vertical;
+    box-align: stretch;
+    /* Modern browsers */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+/* input_area and input_prompt must match in top border and margin for alignment */
+div.input_prompt {
+  color: #303F9F;
+  border-top: 1px solid transparent;
+}
+div.input_area > div.highlight {
+  margin: 0.4em;
+  border: none;
+  padding: 0px;
+  background-color: transparent;
+}
+div.input_area > div.highlight > pre {
+  margin: 0px;
+  border: none;
+  padding: 0px;
+  background-color: transparent;
+}
+/* The following gets added to the <head> if it is detected that the user has a
+ * monospace font with inconsistent normal/bold/italic height.  See
+ * notebookmain.js.  Such fonts will have keywords vertically offset with
+ * respect to the rest of the text.  The user should select a better font.
+ * See: https://github.com/ipython/ipython/issues/1503
+ *
+ * .CodeMirror span {
+ *      vertical-align: bottom;
+ * }
+ */
+.CodeMirror {
+  line-height: 1.21429em;
+  /* Changed from 1em to our global default */
+  font-size: 14px;
+  height: auto;
+  /* Changed to auto to autogrow */
+  background: none;
+  /* Changed from white to allow our bg to show through */
+}
+.CodeMirror-scroll {
+  /*  The CodeMirror docs are a bit fuzzy on if overflow-y should be hidden or visible.*/
+  /*  We have found that if it is visible, vertical scrollbars appear with font size changes.*/
+  overflow-y: hidden;
+  overflow-x: auto;
+}
+.CodeMirror-lines {
+  /* In CM2, this used to be 0.4em, but in CM3 it went to 4px. We need the em value because */
+  /* we have set a different line-height and want this to scale with that. */
+  /* Note that this should set vertical padding only, since CodeMirror assumes
+       that horizontal padding will be set on CodeMirror pre */
+  padding: 0.4em 0;
+}
+.CodeMirror-linenumber {
+  padding: 0 8px 0 4px;
+}
+.CodeMirror-gutters {
+  border-bottom-left-radius: 2px;
+  border-top-left-radius: 2px;
+}
+.CodeMirror pre {
+  /* In CM3 this went to 4px from 0 in CM2. This sets horizontal padding only,
+    use .CodeMirror-lines for vertical */
+  padding: 0 0.4em;
+  border: 0;
+  border-radius: 0;
+}
+.CodeMirror-cursor {
+  border-left: 1.4px solid black;
+}
+@media screen and (min-width: 2138px) and (max-width: 4319px) {
+  .CodeMirror-cursor {
+    border-left: 2px solid black;
+  }
+}
+@media screen and (min-width: 4320px) {
+  .CodeMirror-cursor {
+    border-left: 4px solid black;
+  }
+}
+/*
+
+Original style from softwaremaniacs.org (c) Ivan Sagalaev <Maniac@SoftwareManiacs.Org>
+Adapted from GitHub theme
+
+*/
+.highlight-base {
+  color: #000;
+}
+.highlight-variable {
+  color: #000;
+}
+.highlight-variable-2 {
+  color: #1a1a1a;
+}
+.highlight-variable-3 {
+  color: #333333;
+}
+.highlight-string {
+  color: #BA2121;
+}
+.highlight-comment {
+  color: #408080;
+  font-style: italic;
+}
+.highlight-number {
+  color: #080;
+}
+.highlight-atom {
+  color: #88F;
+}
+.highlight-keyword {
+  color: #008000;
+  font-weight: bold;
+}
+.highlight-builtin {
+  color: #008000;
+}
+.highlight-error {
+  color: #f00;
+}
+.highlight-operator {
+  color: #AA22FF;
+  font-weight: bold;
+}
+.highlight-meta {
+  color: #AA22FF;
+}
+/* previously not defined, copying from default codemirror */
+.highlight-def {
+  color: #00f;
+}
+.highlight-string-2 {
+  color: #f50;
+}
+.highlight-qualifier {
+  color: #555;
+}
+.highlight-bracket {
+  color: #997;
+}
+.highlight-tag {
+  color: #170;
+}
+.highlight-attribute {
+  color: #00c;
+}
+.highlight-header {
+  color: blue;
+}
+.highlight-quote {
+  color: #090;
+}
+.highlight-link {
+  color: #00c;
+}
+/* apply the same style to codemirror */
+.cm-s-ipython span.cm-keyword {
+  color: #008000;
+  font-weight: bold;
+}
+.cm-s-ipython span.cm-atom {
+  color: #88F;
+}
+.cm-s-ipython span.cm-number {
+  color: #080;
+}
+.cm-s-ipython span.cm-def {
+  color: #00f;
+}
+.cm-s-ipython span.cm-variable {
+  color: #000;
+}
+.cm-s-ipython span.cm-operator {
+  color: #AA22FF;
+  font-weight: bold;
+}
+.cm-s-ipython span.cm-variable-2 {
+  color: #1a1a1a;
+}
+.cm-s-ipython span.cm-variable-3 {
+  color: #333333;
+}
+.cm-s-ipython span.cm-comment {
+  color: #408080;
+  font-style: italic;
+}
+.cm-s-ipython span.cm-string {
+  color: #BA2121;
+}
+.cm-s-ipython span.cm-string-2 {
+  color: #f50;
+}
+.cm-s-ipython span.cm-meta {
+  color: #AA22FF;
+}
+.cm-s-ipython span.cm-qualifier {
+  color: #555;
+}
+.cm-s-ipython span.cm-builtin {
+  color: #008000;
+}
+.cm-s-ipython span.cm-bracket {
+  color: #997;
+}
+.cm-s-ipython span.cm-tag {
+  color: #170;
+}
+.cm-s-ipython span.cm-attribute {
+  color: #00c;
+}
+.cm-s-ipython span.cm-header {
+  color: blue;
+}
+.cm-s-ipython span.cm-quote {
+  color: #090;
+}
+.cm-s-ipython span.cm-link {
+  color: #00c;
+}
+.cm-s-ipython span.cm-error {
+  color: #f00;
+}
+.cm-s-ipython span.cm-tab {
+  background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAMCAYAAAAkuj5RAAAAAXNSR0IArs4c6QAAAGFJREFUSMft1LsRQFAQheHPowAKoACx3IgEKtaEHujDjORSgWTH/ZOdnZOcM/sgk/kFFWY0qV8foQwS4MKBCS3qR6ixBJvElOobYAtivseIE120FaowJPN75GMu8j/LfMwNjh4HUpwg4LUAAAAASUVORK5CYII=);
+  background-position: right;
+  background-repeat: no-repeat;
+}
+div.output_wrapper {
+  /* this position must be relative to enable descendents to be absolute within it */
+  position: relative;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  z-index: 1;
+}
+/* class for the output area when it should be height-limited */
+div.output_scroll {
+  /* ideally, this would be max-height, but FF barfs all over that */
+  height: 24em;
+  /* FF needs this *and the wrapper* to specify full width, or it will shrinkwrap */
+  width: 100%;
+  overflow: auto;
+  border-radius: 2px;
+  -webkit-box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.8);
+  box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.8);
+  display: block;
+}
+/* output div while it is collapsed */
+div.output_collapsed {
+  margin: 0px;
+  padding: 0px;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+div.out_prompt_overlay {
+  height: 100%;
+  padding: 0px 0.4em;
+  position: absolute;
+  border-radius: 2px;
+}
+div.out_prompt_overlay:hover {
+  /* use inner shadow to get border that is computed the same on WebKit/FF */
+  -webkit-box-shadow: inset 0 0 1px #000;
+  box-shadow: inset 0 0 1px #000;
+  background: rgba(240, 240, 240, 0.5);
+}
+div.output_prompt {
+  color: #D84315;
+}
+/* This class is the outer container of all output sections. */
+div.output_area {
+  padding: 0px;
+  page-break-inside: avoid;
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: horizontal;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+div.output_area .MathJax_Display {
+  text-align: left !important;
+}
+div.output_area 
+div.output_area 
+div.output_area img,
+div.output_area svg {
+  max-width: 100%;
+  height: auto;
+}
+div.output_area img.unconfined,
+div.output_area svg.unconfined {
+  max-width: none;
+}
+div.output_area .mglyph > img {
+  max-width: none;
+}
+/* This is needed to protect the pre formating from global settings such
+   as that of bootstrap */
+.output {
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: vertical;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: vertical;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+@media (max-width: 540px) {
+  div.output_area {
+    /* Old browsers */
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-box-align: stretch;
+    display: -moz-box;
+    -moz-box-orient: vertical;
+    -moz-box-align: stretch;
+    display: box;
+    box-orient: vertical;
+    box-align: stretch;
+    /* Modern browsers */
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+  }
+}
+div.output_area pre {
+  margin: 0;
+  padding: 1px 0 1px 0;
+  border: 0;
+  vertical-align: baseline;
+  color: black;
+  background-color: transparent;
+  border-radius: 0;
+}
+/* This class is for the output subarea inside the output_area and after
+   the prompt div. */
+div.output_subarea {
+  overflow-x: auto;
+  padding: 0.4em;
+  /* Old browsers */
+  -webkit-box-flex: 1;
+  -moz-box-flex: 1;
+  box-flex: 1;
+  /* Modern browsers */
+  flex: 1;
+  max-width: calc(100% - 14ex);
+}
+div.output_scroll div.output_subarea {
+  overflow-x: visible;
+}
+/* The rest of the output_* classes are for special styling of the different
+   output types */
+/* all text output has this class: */
+div.output_text {
+  text-align: left;
+  color: #000;
+  /* This has to match that of the the CodeMirror class line-height below */
+  line-height: 1.21429em;
+}
+/* stdout/stderr are 'text' as well as 'stream', but execute_result/error are *not* streams */
+div.output_stderr {
+  background: #fdd;
+  /* very light red background for stderr */
+}
+div.output_latex {
+  text-align: left;
+}
+/* Empty output_javascript divs should have no height */
+div.output_javascript:empty {
+  padding: 0;
+}
+.js-error {
+  color: darkred;
+}
+/* raw_input styles */
+div.raw_input_container {
+  line-height: 1.21429em;
+  padding-top: 5px;
+}
+pre.raw_input_prompt {
+  /* nothing needed here. */
+}
+input.raw_input {
+  font-family: monospace;
+  font-size: inherit;
+  color: inherit;
+  width: auto;
+  /* make sure input baseline aligns with prompt */
+  vertical-align: baseline;
+  /* padding + margin = 0.5em between prompt and cursor */
+  padding: 0em 0.25em;
+  margin: 0em 0.25em;
+}
+input.raw_input:focus {
+  box-shadow: none;
+}
+p.p-space {
+  margin-bottom: 10px;
+}
+div.output_unrecognized {
+  padding: 5px;
+  font-weight: bold;
+  color: red;
+}
+div.output_unrecognized a {
+  color: inherit;
+  text-decoration: none;
+}
+div.output_unrecognized a:hover {
+  color: inherit;
+  text-decoration: none;
+}
+.rendered_html {
+  color: #000;
+  /* any extras will just be numbers: */
+}
+
+
+
+.rendered_html :link {
+  text-decoration: underline;
+}
+.rendered_html :visited {
+  text-decoration: underline;
+}
+
+
+
+
+
+
+.rendered_html h1:first-child {
+  margin-top: 0.538em;
+}
+.rendered_html h2:first-child {
+  margin-top: 0.636em;
+}
+.rendered_html h3:first-child {
+  margin-top: 0.777em;
+}
+.rendered_html h4:first-child {
+  margin-top: 1em;
+}
+.rendered_html h5:first-child {
+  margin-top: 1em;
+}
+.rendered_html h6:first-child {
+  margin-top: 1em;
+}
+.rendered_html ul:not(.list-inline),
+.rendered_html ol:not(.list-inline) {
+  padding-left: 2em;
+}
+
+
+
+
+
+
+
+
+.rendered_html * + ul {
+  margin-top: 1em;
+}
+.rendered_html * + ol {
+  margin-top: 1em;
+}
+
+
+
+
+
+.rendered_html pre,
+
+
+
+
+.rendered_html tr,
+.rendered_html th,
+
+
+.rendered_html tbody tr:nth-child(odd) {
+  background: #f5f5f5;
+}
+.rendered_html tbody tr:hover {
+  background: rgba(66, 165, 245, 0.2);
+}
+.rendered_html * + table {
+  margin-top: 1em;
+}
+
+.rendered_html * + p {
+  margin-top: 1em;
+}
+
+.rendered_html * + img {
+  margin-top: 1em;
+}
+.rendered_html img,
+
+.rendered_html img.unconfined,
+
+
+.rendered_html * + .alert {
+  margin-top: 1em;
+}
+[dir="rtl"] 
+div.text_cell {
+  /* Old browsers */
+  display: -webkit-box;
+  -webkit-box-orient: horizontal;
+  -webkit-box-align: stretch;
+  display: -moz-box;
+  -moz-box-orient: horizontal;
+  -moz-box-align: stretch;
+  display: box;
+  box-orient: horizontal;
+  box-align: stretch;
+  /* Modern browsers */
+  display: flex;
+  flex-direction: row;
+  align-items: stretch;
+}
+@media (max-width: 540px) {
+  div.text_cell > div.prompt {
+    display: none;
+  }
+}
+div.text_cell_render {
+  /*font-family: "Helvetica Neue", Arial, Helvetica, Geneva, sans-serif;*/
+  outline: none;
+  resize: none;
+  width: inherit;
+  border-style: none;
+  padding: 0.5em 0.5em 0.5em 0.4em;
+  color: #000;
+  box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+}
+a.anchor-link:link {
+  text-decoration: none;
+  padding: 0px 20px;
+  visibility: hidden;
+}
+h1:hover .anchor-link,
+h2:hover .anchor-link,
+h3:hover .anchor-link,
+h4:hover .anchor-link,
+h5:hover .anchor-link,
+h6:hover .anchor-link {
+  visibility: visible;
+}
+.text_cell.rendered .input_area {
+  display: none;
+}
+.text_cell.rendered 
+.text_cell.rendered .rendered_html tr,
+.text_cell.rendered .rendered_html th,
+.text_cell.rendered 
+.text_cell.unrendered .text_cell_render {
+  display: none;
+}
+.text_cell .dropzone .input_area {
+  border: 2px dashed #bababa;
+  margin: -1px;
+}
+.cm-header-1,
+.cm-header-2,
+.cm-header-3,
+.cm-header-4,
+.cm-header-5,
+.cm-header-6 {
+  font-weight: bold;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+.cm-header-1 {
+  font-size: 185.7%;
+}
+.cm-header-2 {
+  font-size: 157.1%;
+}
+.cm-header-3 {
+  font-size: 128.6%;
+}
+.cm-header-4 {
+  font-size: 110%;
+}
+.cm-header-5 {
+  font-size: 100%;
+  font-style: italic;
+}
+.cm-header-6 {
+  font-size: 100%;
+  font-style: italic;
+}
+</style>
+<style type="text/css">.highlight .hll { background-color: #ffffcc }
+.highlight  { background: #f8f8f8; }
+.highlight .c { color: #408080; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #FF0000 } /* Error */
+.highlight .k { color: #008000; font-weight: bold } /* Keyword */
+.highlight .o { color: #666666 } /* Operator */
+.highlight .ch { color: #408080; font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #BC7A00 } /* Comment.Preproc */
+.highlight .cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
+.highlight .c1 { color: #408080; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #408080; font-style: italic } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .gr { color: #FF0000 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888888 } /* Generic.Output */
+.highlight .gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #0044DD } /* Generic.Traceback */
+.highlight .kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #008000 } /* Keyword.Pseudo */
+.highlight .kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #B00040 } /* Keyword.Type */
+.highlight .m { color: #666666 } /* Literal.Number */
+.highlight .s { color: #BA2121 } /* Literal.String */
+.highlight .na { color: #7D9029 } /* Name.Attribute */
+.highlight .nb { color: #008000 } /* Name.Builtin */
+.highlight .nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.highlight .no { color: #880000 } /* Name.Constant */
+.highlight .nd { color: #AA22FF } /* Name.Decorator */
+.highlight .ni { color: #999999; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.highlight .nf { color: #0000FF } /* Name.Function */
+.highlight .nl { color: #A0A000 } /* Name.Label */
+.highlight .nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #008000; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #19177C } /* Name.Variable */
+.highlight .ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #bbbbbb } /* Text.Whitespace */
+.highlight .mb { color: #666666 } /* Literal.Number.Bin */
+.highlight .mf { color: #666666 } /* Literal.Number.Float */
+.highlight .mh { color: #666666 } /* Literal.Number.Hex */
+.highlight .mi { color: #666666 } /* Literal.Number.Integer */
+.highlight .mo { color: #666666 } /* Literal.Number.Oct */
+.highlight .sa { color: #BA2121 } /* Literal.String.Affix */
+.highlight .sb { color: #BA2121 } /* Literal.String.Backtick */
+.highlight .sc { color: #BA2121 } /* Literal.String.Char */
+.highlight .dl { color: #BA2121 } /* Literal.String.Delimiter */
+.highlight .sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #BA2121 } /* Literal.String.Double */
+.highlight .se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #BA2121 } /* Literal.String.Heredoc */
+.highlight .si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.highlight .sx { color: #008000 } /* Literal.String.Other */
+.highlight .sr { color: #BB6688 } /* Literal.String.Regex */
+.highlight .s1 { color: #BA2121 } /* Literal.String.Single */
+.highlight .ss { color: #19177C } /* Literal.String.Symbol */
+.highlight .bp { color: #008000 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #0000FF } /* Name.Function.Magic */
+.highlight .vc { color: #19177C } /* Name.Variable.Class */
+.highlight .vg { color: #19177C } /* Name.Variable.Global */
+.highlight .vi { color: #19177C } /* Name.Variable.Instance */
+.highlight .vm { color: #19177C } /* Name.Variable.Magic */
+.highlight .il { color: #666666 } /* Literal.Number.Integer.Long */</style>
+<style type="text/css">
+/* Temporary definitions which will become obsolete with Notebook release 5.0 */
+.ansi-black-fg { color: #3E424D; }
+.ansi-black-bg { background-color: #3E424D; }
+.ansi-black-intense-fg { color: #282C36; }
+.ansi-black-intense-bg { background-color: #282C36; }
+.ansi-red-fg { color: #E75C58; }
+.ansi-red-bg { background-color: #E75C58; }
+.ansi-red-intense-fg { color: #B22B31; }
+.ansi-red-intense-bg { background-color: #B22B31; }
+.ansi-green-fg { color: #00A250; }
+.ansi-green-bg { background-color: #00A250; }
+.ansi-green-intense-fg { color: #007427; }
+.ansi-green-intense-bg { background-color: #007427; }
+.ansi-yellow-fg { color: #DDB62B; }
+.ansi-yellow-bg { background-color: #DDB62B; }
+.ansi-yellow-intense-fg { color: #B27D12; }
+.ansi-yellow-intense-bg { background-color: #B27D12; }
+.ansi-blue-fg { color: #208FFB; }
+.ansi-blue-bg { background-color: #208FFB; }
+.ansi-blue-intense-fg { color: #0065CA; }
+.ansi-blue-intense-bg { background-color: #0065CA; }
+.ansi-magenta-fg { color: #D160C4; }
+.ansi-magenta-bg { background-color: #D160C4; }
+.ansi-magenta-intense-fg { color: #A03196; }
+.ansi-magenta-intense-bg { background-color: #A03196; }
+.ansi-cyan-fg { color: #60C6C8; }
+.ansi-cyan-bg { background-color: #60C6C8; }
+.ansi-cyan-intense-fg { color: #258F8F; }
+.ansi-cyan-intense-bg { background-color: #258F8F; }
+.ansi-white-fg { color: #C5C1B4; }
+.ansi-white-bg { background-color: #C5C1B4; }
+.ansi-white-intense-fg { color: #A1A6B2; }
+.ansi-white-intense-bg { background-color: #A1A6B2; }
+
+.ansi-bold { font-weight: bold; }
+</style>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h1 id="Eska-Rock-playlista-od-2010-r.">Eska Rock playlista od 2010 r.<a class="anchor-link" href="#Eska-Rock-playlista-od-2010-r.">&#182;</a></h1>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[363]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Wczytujemy-dane">Wczytujemy dane<a class="anchor-link" href="#Wczytujemy-dane">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[364]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;eska-full.csv&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Porz&#261;dkujemy-dane">Porz&#261;dkujemy dane<a class="anchor-link" href="#Porz&#261;dkujemy-dane">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Nazwy-utwor&#243;w-i-artyst&#243;w-zamieniamy-na-ma&#322;e-litery">Nazwy utwor&#243;w i artyst&#243;w zamieniamy na ma&#322;e litery<a class="anchor-link" href="#Nazwy-utwor&#243;w-i-artyst&#243;w-zamieniamy-na-ma&#322;e-litery">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[365]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;artist&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;artist&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Sprawdzamy-co-si&#281;-powtarza">Sprawdzamy co si&#281; powtarza<a class="anchor-link" href="#Sprawdzamy-co-si&#281;-powtarza">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[366]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">duplicates</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">duplicated</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[367]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="n">duplicates</span> <span class="o">==</span> <span class="kc">True</span><span class="p">]</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;date_played&#39;</span><span class="p">,</span><span class="s1">&#39;time_played&#39;</span><span class="p">,</span><span class="s1">&#39;title&#39;</span><span class="p">,</span><span class="s1">&#39;artist&#39;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[367]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>title</th>
+      <th>artist</th>
+      <th>date_played</th>
+      <th>time_played</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>19474</th>
+      <td>arahja</td>
+      <td>kult</td>
+      <td>2010-10-29</td>
+      <td>20:50</td>
+    </tr>
+    <tr>
+      <th>96627</th>
+      <td>shotgun</td>
+      <td>limp bizkit</td>
+      <td>2011-08-01</td>
+      <td>01:00</td>
+    </tr>
+    <tr>
+      <th>121808</th>
+      <td>dorosłe dzieci</td>
+      <td>turbo</td>
+      <td>2011-10-30</td>
+      <td>01:00</td>
+    </tr>
+    <tr>
+      <th>135791</th>
+      <td>levitate</td>
+      <td>hollywood undead</td>
+      <td>2011-11-21</td>
+      <td>19:44</td>
+    </tr>
+    <tr>
+      <th>135777</th>
+      <td>alibis</td>
+      <td>mona</td>
+      <td>2011-11-23</td>
+      <td>20:17</td>
+    </tr>
+    <tr>
+      <th>139747</th>
+      <td>monarchy of roses</td>
+      <td>red hot chili peppers</td>
+      <td>2011-12-10</td>
+      <td>17:05</td>
+    </tr>
+    <tr>
+      <th>137469</th>
+      <td>open your eyes</td>
+      <td>guano apes</td>
+      <td>2011-12-11</td>
+      <td>09:07</td>
+    </tr>
+    <tr>
+      <th>138585</th>
+      <td>warszawa</td>
+      <td>t.love</td>
+      <td>2011-12-11</td>
+      <td>13:21</td>
+    </tr>
+    <tr>
+      <th>139793</th>
+      <td>shake it out</td>
+      <td>florence and the machine</td>
+      <td>2011-12-14</td>
+      <td>20:14</td>
+    </tr>
+    <tr>
+      <th>136429</th>
+      <td>another one bites the dust</td>
+      <td>queen</td>
+      <td>2011-12-16</td>
+      <td>00:05</td>
+    </tr>
+    <tr>
+      <th>139259</th>
+      <td>when we stand together</td>
+      <td>nickelback</td>
+      <td>2011-12-16</td>
+      <td>20:10</td>
+    </tr>
+    <tr>
+      <th>136476</th>
+      <td>somebody that i used to know</td>
+      <td>gotye</td>
+      <td>2011-12-17</td>
+      <td>00:19</td>
+    </tr>
+    <tr>
+      <th>137255</th>
+      <td>mein land</td>
+      <td>rammstein</td>
+      <td>2011-12-17</td>
+      <td>10:25</td>
+    </tr>
+    <tr>
+      <th>137636</th>
+      <td>pyro</td>
+      <td>kings of leon</td>
+      <td>2011-12-20</td>
+      <td>13:29</td>
+    </tr>
+    <tr>
+      <th>145228</th>
+      <td>how you remind me</td>
+      <td>nickelback</td>
+      <td>2011-12-21</td>
+      <td>23:32</td>
+    </tr>
+    <tr>
+      <th>142466</th>
+      <td>krew boga</td>
+      <td>kult</td>
+      <td>2011-12-24</td>
+      <td>04:54</td>
+    </tr>
+    <tr>
+      <th>142168</th>
+      <td>piła tango</td>
+      <td>strachy na lachy</td>
+      <td>2011-12-28</td>
+      <td>05:46</td>
+    </tr>
+    <tr>
+      <th>143435</th>
+      <td>pumped up kicks</td>
+      <td>foster the people</td>
+      <td>2011-12-28</td>
+      <td>12:08</td>
+    </tr>
+    <tr>
+      <th>141562</th>
+      <td>noc jak każda inna</td>
+      <td>happysad</td>
+      <td>2012-01-01</td>
+      <td>11:02</td>
+    </tr>
+    <tr>
+      <th>142072</th>
+      <td>damy radę</td>
+      <td>happysad</td>
+      <td>2012-01-05</td>
+      <td>09:27</td>
+    </tr>
+    <tr>
+      <th>148256</th>
+      <td>nie przeszkadzaj mi, bo tańczę</td>
+      <td>muchy</td>
+      <td>2012-01-09</td>
+      <td>02:34</td>
+    </tr>
+    <tr>
+      <th>146638</th>
+      <td>tonight</td>
+      <td>seether</td>
+      <td>2012-01-10</td>
+      <td>03:46</td>
+    </tr>
+    <tr>
+      <th>147936</th>
+      <td>the catalyst</td>
+      <td>linkin park</td>
+      <td>2012-01-12</td>
+      <td>02:41</td>
+    </tr>
+    <tr>
+      <th>152550</th>
+      <td>satellite</td>
+      <td>rise against</td>
+      <td>2012-01-22</td>
+      <td>12:06</td>
+    </tr>
+    <tr>
+      <th>153462</th>
+      <td>nie przeszkadzaj mi, bo tańczę</td>
+      <td>muchy</td>
+      <td>2012-01-22</td>
+      <td>20:20</td>
+    </tr>
+    <tr>
+      <th>152287</th>
+      <td>hedonism</td>
+      <td>skunk anansie</td>
+      <td>2012-01-24</td>
+      <td>15:33</td>
+    </tr>
+    <tr>
+      <th>152293</th>
+      <td>the catalyst</td>
+      <td>linkin park</td>
+      <td>2012-01-25</td>
+      <td>12:28</td>
+    </tr>
+    <tr>
+      <th>153445</th>
+      <td>violet hill</td>
+      <td>coldplay</td>
+      <td>2012-01-28</td>
+      <td>23:49</td>
+    </tr>
+    <tr>
+      <th>152743</th>
+      <td>tonight</td>
+      <td>seether</td>
+      <td>2012-01-31</td>
+      <td>20:46</td>
+    </tr>
+    <tr>
+      <th>157694</th>
+      <td>midnight city</td>
+      <td>m83</td>
+      <td>2012-02-08</td>
+      <td>19:37</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>909396</th>
+      <td>w moim ogrodzie</td>
+      <td>daab</td>
+      <td>2018-10-28</td>
+      <td>02:20</td>
+    </tr>
+    <tr>
+      <th>909397</th>
+      <td>w moim ogrodzie</td>
+      <td>daab</td>
+      <td>2018-10-28</td>
+      <td>02:20</td>
+    </tr>
+    <tr>
+      <th>909398</th>
+      <td>w moim ogrodzie</td>
+      <td>daab</td>
+      <td>2018-10-28</td>
+      <td>02:20</td>
+    </tr>
+    <tr>
+      <th>909399</th>
+      <td>w moim ogrodzie</td>
+      <td>daab</td>
+      <td>2018-10-28</td>
+      <td>02:20</td>
+    </tr>
+    <tr>
+      <th>909400</th>
+      <td>w moim ogrodzie</td>
+      <td>daab</td>
+      <td>2018-10-28</td>
+      <td>02:20</td>
+    </tr>
+    <tr>
+      <th>909403</th>
+      <td>trochę wolniej</td>
+      <td>ira</td>
+      <td>2018-10-28</td>
+      <td>02:25</td>
+    </tr>
+    <tr>
+      <th>909404</th>
+      <td>trochę wolniej</td>
+      <td>ira</td>
+      <td>2018-10-28</td>
+      <td>02:25</td>
+    </tr>
+    <tr>
+      <th>909334</th>
+      <td>telefony</td>
+      <td>republika</td>
+      <td>2018-10-28</td>
+      <td>02:28</td>
+    </tr>
+    <tr>
+      <th>909335</th>
+      <td>telefony</td>
+      <td>republika</td>
+      <td>2018-10-28</td>
+      <td>02:28</td>
+    </tr>
+    <tr>
+      <th>909336</th>
+      <td>telefony</td>
+      <td>republika</td>
+      <td>2018-10-28</td>
+      <td>02:28</td>
+    </tr>
+    <tr>
+      <th>909408</th>
+      <td>telefony</td>
+      <td>republika</td>
+      <td>2018-10-28</td>
+      <td>02:29</td>
+    </tr>
+    <tr>
+      <th>909409</th>
+      <td>o! ela</td>
+      <td>chłopcy z placu broni</td>
+      <td>2018-10-28</td>
+      <td>02:33</td>
+    </tr>
+    <tr>
+      <th>909411</th>
+      <td>o! ela</td>
+      <td>chłopcy z placu broni</td>
+      <td>2018-10-28</td>
+      <td>02:33</td>
+    </tr>
+    <tr>
+      <th>909331</th>
+      <td>co może przynieść nowy dzień</td>
+      <td>kasia kowalska</td>
+      <td>2018-10-28</td>
+      <td>02:35</td>
+    </tr>
+    <tr>
+      <th>909332</th>
+      <td>co może przynieść nowy dzień</td>
+      <td>kasia kowalska</td>
+      <td>2018-10-28</td>
+      <td>02:35</td>
+    </tr>
+    <tr>
+      <th>909413</th>
+      <td>co może przynieść nowy dzień</td>
+      <td>kasia kowalska</td>
+      <td>2018-10-28</td>
+      <td>02:35</td>
+    </tr>
+    <tr>
+      <th>909416</th>
+      <td>co może przynieść nowy dzień</td>
+      <td>kasia kowalska</td>
+      <td>2018-10-28</td>
+      <td>02:36</td>
+    </tr>
+    <tr>
+      <th>909419</th>
+      <td>sen o warszawie</td>
+      <td>czesław niemen</td>
+      <td>2018-10-28</td>
+      <td>02:40</td>
+    </tr>
+    <tr>
+      <th>909423</th>
+      <td>sen o warszawie</td>
+      <td>czesław niemen</td>
+      <td>2018-10-28</td>
+      <td>02:40</td>
+    </tr>
+    <tr>
+      <th>909421</th>
+      <td>andzia i ja</td>
+      <td>oddział zamknięty</td>
+      <td>2018-10-28</td>
+      <td>02:43</td>
+    </tr>
+    <tr>
+      <th>909422</th>
+      <td>andzia i ja</td>
+      <td>oddział zamknięty</td>
+      <td>2018-10-28</td>
+      <td>02:43</td>
+    </tr>
+    <tr>
+      <th>909424</th>
+      <td>andzia i ja</td>
+      <td>oddział zamknięty</td>
+      <td>2018-10-28</td>
+      <td>02:43</td>
+    </tr>
+    <tr>
+      <th>909429</th>
+      <td>andzia i ja</td>
+      <td>oddział zamknięty</td>
+      <td>2018-10-28</td>
+      <td>02:44</td>
+    </tr>
+    <tr>
+      <th>909427</th>
+      <td>dobrze, że cię mam</td>
+      <td>kortez</td>
+      <td>2018-10-28</td>
+      <td>02:46</td>
+    </tr>
+    <tr>
+      <th>909430</th>
+      <td>dobrze, że cię mam</td>
+      <td>kortez</td>
+      <td>2018-10-28</td>
+      <td>02:46</td>
+    </tr>
+    <tr>
+      <th>909433</th>
+      <td>lipstick on the glass</td>
+      <td>maanam</td>
+      <td>2018-10-28</td>
+      <td>02:49</td>
+    </tr>
+    <tr>
+      <th>909434</th>
+      <td>lipstick on the glass</td>
+      <td>maanam</td>
+      <td>2018-10-28</td>
+      <td>02:49</td>
+    </tr>
+    <tr>
+      <th>909435</th>
+      <td>lipstick on the glass</td>
+      <td>maanam</td>
+      <td>2018-10-28</td>
+      <td>02:49</td>
+    </tr>
+    <tr>
+      <th>909437</th>
+      <td>lipstick on the glass</td>
+      <td>maanam</td>
+      <td>2018-10-28</td>
+      <td>02:50</td>
+    </tr>
+    <tr>
+      <th>909442</th>
+      <td>za ostatni grosz</td>
+      <td>budka suflera</td>
+      <td>2018-10-28</td>
+      <td>02:52</td>
+    </tr>
+  </tbody>
+</table>
+<p>1335 rows × 4 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Usuwamy-powt&#243;rzenia">Usuwamy powt&#243;rzenia<a class="anchor-link" href="#Usuwamy-powt&#243;rzenia">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[368]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[368]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>title          909678
+artist         909678
+date_played    909678
+time_played    909678
+dtype: int64</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[369]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[369]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>title          908343
+artist         908343
+date_played    908343
+time_played    908343
+dtype: int64</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[370]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="time_played-zmieniamy-na-typ-Timestamp">time_played zmieniamy na typ Timestamp<a class="anchor-link" href="#time_played-zmieniamy-na-typ-Timestamp">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[372]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;date_played&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;time_played&#39;</span><span class="p">]</span>
+<span class="n">df</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Zmieniamy-typ-pola-date_played-z-object-na-datetime24">Zmieniamy typ pola date_played z object na datetime24<a class="anchor-link" href="#Zmieniamy-typ-pola-date_played-z-object-na-datetime24">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[373]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;date_played&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;date_played&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="s1">&#39;datetime64&#39;</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[374]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">])</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[374]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>title</th>
+      <th>artist</th>
+      <th>date_played</th>
+      <th>time_played</th>
+      <th>datetime</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>909276</th>
+      <td>wojna</td>
+      <td>maciek balcar</td>
+      <td>2018-10-28</td>
+      <td>23:49</td>
+      <td>2018-10-28 23:49:00</td>
+    </tr>
+    <tr>
+      <th>909291</th>
+      <td>błyski</td>
+      <td>hurrockaine</td>
+      <td>2018-10-28</td>
+      <td>23:52</td>
+      <td>2018-10-28 23:52:00</td>
+    </tr>
+    <tr>
+      <th>909292</th>
+      <td>bóg</td>
+      <td>t.love</td>
+      <td>2018-10-28</td>
+      <td>23:55</td>
+      <td>2018-10-28 23:55:00</td>
+    </tr>
+    <tr>
+      <th>909280</th>
+      <td>wehikuł czasu</td>
+      <td>dżem</td>
+      <td>2018-10-28</td>
+      <td>23:59</td>
+      <td>2018-10-28 23:59:00</td>
+    </tr>
+    <tr>
+      <th>909279</th>
+      <td>bóg</td>
+      <td>t.love</td>
+      <td>2018-10-28</td>
+      <td>23:59</td>
+      <td>2018-10-28 23:59:00</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[375]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="s1">&#39;time_played&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[376]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">info</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_stream output_stdout output_text">
+<pre>&lt;class &#39;pandas.core.frame.DataFrame&#39;&gt;
+Int64Index: 908343 entries, 0 to 909677
+Data columns (total 4 columns):
+title          908343 non-null object
+artist         908343 non-null object
+date_played    908343 non-null datetime64[ns]
+datetime       908343 non-null datetime64[ns]
+dtypes: datetime64[ns](2), object(2)
+memory usage: 34.7+ MB
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h2 id="Przechodzimy-do-analizy-dancyh">Przechodzimy do analizy dancyh<a class="anchor-link" href="#Przechodzimy-do-analizy-dancyh">&#182;</a></h2>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="We&#378;my-50-najcz&#281;&#347;ciej-granych-zespo&#322;&#243;w">We&#378;my 50 najcz&#281;&#347;ciej granych zespo&#322;&#243;w<a class="anchor-link" href="#We&#378;my-50-najcz&#281;&#347;ciej-granych-zespo&#322;&#243;w">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[377]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">artists</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;artist&#39;</span><span class="p">]</span>
+<span class="n">top_50_artists</span> <span class="o">=</span> <span class="n">artists</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">top_50_artists</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[377]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>hey                         17407
+myslovitz                   16436
+t.love                      15802
+perfect                     14773
+kult                        14431
+u2                          13093
+lady pank                   12905
+red hot chili peppers       12379
+happysad                    12259
+queen                       11204
+strachy na lachy            10865
+maanam                      10735
+dżem                        10397
+edyta bartosiewicz          10259
+linkin park                 10199
+republika                    9801
+foo fighters                 8122
+ira                          7946
+coldplay                     7914
+o.n.a.                       7846
+kings of leon                7726
+aerosmith                    7719
+oddział zamknięty            7281
+ac/dc                        7256
+coma                         7117
+lipali                       6793
+florence and the machine     6529
+bon jovi                     6467
+lenny kravitz                6383
+the rolling stones           6266
+metallica                    6248
+green day                    6181
+muse                         6074
+guns n&#39; roses                5981
+power of trinity             5948
+nirvana                      5807
+depeche mode                 5354
+nickelback                   5316
+dawid podsiadło              5245
+pidżama porno                4960
+skunk anansie                4959
+the doors                    4685
+tilt                         4494
+led zeppelin                 4426
+kazik                        4393
+pink floyd                   4350
+bob marley                   4337
+luxtorpeda                   4326
+kasia kowalska               4179
+kasabian                     4118
+Name: artist, dtype: int64</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Jaki-procent-odtworze&#324;-wszystkich-utwor&#243;w-stanowi&#261;-utwory-czo&#322;owych-50-artyst&#243;w">Jaki procent odtworze&#324; wszystkich utwor&#243;w stanowi&#261; utwory czo&#322;owych 50 artyst&#243;w<a class="anchor-link" href="#Jaki-procent-odtworze&#324;-wszystkich-utwor&#243;w-stanowi&#261;-utwory-czo&#322;owych-50-artyst&#243;w">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[378]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">top_50_artists_percentage_of_all</span> <span class="o">=</span> <span class="n">top_50_artists</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">/</span> <span class="n">artists</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()[</span><span class="mi">50</span><span class="p">:]</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="nb">round</span><span class="p">(</span><span class="n">top_50_artists_percentage_of_all</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[378]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>80.7</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Dla-por&#243;wnania-sprawd&#378;my-jaki-procent-wszystkich-zespo&#322;&#243;w-stanowi-nasza-pi&#281;&#263;dziesi&#261;tka">Dla por&#243;wnania sprawd&#378;my jaki procent wszystkich zespo&#322;&#243;w stanowi nasza pi&#281;&#263;dziesi&#261;tka<a class="anchor-link" href="#Dla-por&#243;wnania-sprawd&#378;my-jaki-procent-wszystkich-zespo&#322;&#243;w-stanowi-nasza-pi&#281;&#263;dziesi&#261;tka">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[379]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">top_50_artists_to_number_of_all_artists</span> <span class="o">=</span> <span class="n">top_50_artists</span><span class="o">.</span><span class="n">count</span><span class="p">()</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">artists</span><span class="o">.</span><span class="n">unique</span><span class="p">())</span> <span class="o">*</span> <span class="mi">100</span>
+<span class="nb">round</span><span class="p">(</span><span class="n">top_50_artists_to_number_of_all_artists</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[379]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>1.9</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<h3 id="Teraz-czas-na-najcz&#281;strze-utwory">Teraz czas na najcz&#281;strze utwory<a class="anchor-link" href="#Teraz-czas-na-najcz&#281;strze-utwory">&#182;</a></h3>
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[380]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">titles</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span>
+<span class="n">top_50_titles</span> <span class="o">=</span> <span class="n">titles</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">top_50_titles</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[380]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>sen                                    2108
+kocham wolność                         1829
+syreny                                 1762
+biała flaga                            1757
+tak tak to ja                          1724
+mamona                                 1712
+załoga g                               1683
+szare miraże                           1667
+na pół                                 1660
+kryzysowa narzeczona                   1650
+whisky                                 1648
+chodź ze mną                           1638
+nadzieja                               1633
+radioactive                            1632
+warszawa                               1616
+party                                  1612
+ona jest ze snu                        1575
+drzwi                                  1570
+winna                                  1569
+kiedy powiem sobie dość                1561
+czerwony jak cegła                     1558
+chcemy być sobą                        1556
+koła czasu                             1551
+sic!                                   1550
+sing                                   1538
+king                                   1527
+telefony                               1526
+mówię ci że                            1521
+polski                                 1518
+obudź się                              1516
+ten wasz świat                         1502
+jedwab                                 1497
+scenariusz dla moich sąsiadów          1477
+konstytucje                            1468
+tatuaż                                 1458
+ale w koło jest wesoło                 1458
+i nikomu nie wolno się z tego śmiać    1458
+spotkanie z ...                        1457
+arahja                                 1456
+ostatni                                1446
+autobiografia                          1438
+1996                                   1437
+ajrisz                                 1435
+nie poganiaj mnie                      1433
+wehikuł czasu                          1426
+zanim pójdę                            1422
+teksański                              1418
+jenny                                  1417
+oprócz błęktinego nieba                1416
+it&#39;s my life                           1411
+Name: title, dtype: int64</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Teraz sprawdźmy kto grał te kawałki</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[381]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">artist_title</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;artist&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">]]</span>
+<span class="n">top_50_titles</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span>
+<span class="n">artist_title</span><span class="p">[</span><span class="n">artist_title</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">top_50_titles</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">values</span><span class="p">)]</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[381]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>artist</th>
+      <th>title</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>75492</th>
+      <td>the wombats</td>
+      <td>1996</td>
+    </tr>
+    <tr>
+      <th>91</th>
+      <td>t.love</td>
+      <td>1996</td>
+    </tr>
+    <tr>
+      <th>274</th>
+      <td>t.love</td>
+      <td>ajrisz</td>
+    </tr>
+    <tr>
+      <th>151</th>
+      <td>perfect</td>
+      <td>ale w koło jest wesoło</td>
+    </tr>
+    <tr>
+      <th>58</th>
+      <td>kult</td>
+      <td>arahja</td>
+    </tr>
+    <tr>
+      <th>90</th>
+      <td>perfect</td>
+      <td>autobiografia</td>
+    </tr>
+    <tr>
+      <th>609</th>
+      <td>republika</td>
+      <td>biała flaga</td>
+    </tr>
+    <tr>
+      <th>10446</th>
+      <td>lipali</td>
+      <td>biała flaga</td>
+    </tr>
+    <tr>
+      <th>205</th>
+      <td>perfect</td>
+      <td>chcemy być sobą</td>
+    </tr>
+    <tr>
+      <th>129995</th>
+      <td>power of trinity</td>
+      <td>chodź ze mną</td>
+    </tr>
+    <tr>
+      <th>275</th>
+      <td>dżem</td>
+      <td>czerwony jak cegła</td>
+    </tr>
+    <tr>
+      <th>514</th>
+      <td>o.n.a.</td>
+      <td>drzwi</td>
+    </tr>
+    <tr>
+      <th>512</th>
+      <td>kobranocka</td>
+      <td>i nikomu nie wolno się z tego śmiać</td>
+    </tr>
+    <tr>
+      <th>1814</th>
+      <td>bon jovi</td>
+      <td>it's my life</td>
+    </tr>
+    <tr>
+      <th>1392</th>
+      <td>talk talk</td>
+      <td>it's my life</td>
+    </tr>
+    <tr>
+      <th>168</th>
+      <td>róże europy</td>
+      <td>jedwab</td>
+    </tr>
+    <tr>
+      <th>208</th>
+      <td>edyta bartosiewicz</td>
+      <td>jenny</td>
+    </tr>
+    <tr>
+      <th>171</th>
+      <td>o.n.a.</td>
+      <td>kiedy powiem sobie dość</td>
+    </tr>
+    <tr>
+      <th>294</th>
+      <td>t.love</td>
+      <td>king</td>
+    </tr>
+    <tr>
+      <th>878899</th>
+      <td>bartas szymoniak</td>
+      <td>kocham wolność</td>
+    </tr>
+    <tr>
+      <th>133</th>
+      <td>chłopcy z placu broni</td>
+      <td>kocham wolność</td>
+    </tr>
+    <tr>
+      <th>157</th>
+      <td>lech janerka</td>
+      <td>konstytucje</td>
+    </tr>
+    <tr>
+      <th>458</th>
+      <td>o.n.a.</td>
+      <td>koła czasu</td>
+    </tr>
+    <tr>
+      <th>222</th>
+      <td>lady pank</td>
+      <td>kryzysowa narzeczona</td>
+    </tr>
+    <tr>
+      <th>73</th>
+      <td>republika</td>
+      <td>mamona</td>
+    </tr>
+    <tr>
+      <th>261</th>
+      <td>tilt</td>
+      <td>mówię ci że</td>
+    </tr>
+    <tr>
+      <th>106059</th>
+      <td>coma</td>
+      <td>na pół</td>
+    </tr>
+    <tr>
+      <th>339200</th>
+      <td>mama selita</td>
+      <td>na pół</td>
+    </tr>
+    <tr>
+      <th>184</th>
+      <td>ira</td>
+      <td>nadzieja</td>
+    </tr>
+    <tr>
+      <th>585374</th>
+      <td>maciek balcar</td>
+      <td>nadzieja</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>670</th>
+      <td>oddział zamknięty</td>
+      <td>party</td>
+    </tr>
+    <tr>
+      <th>984</th>
+      <td>human</td>
+      <td>polski</td>
+    </tr>
+    <tr>
+      <th>363567</th>
+      <td>within temptation</td>
+      <td>radioactive</td>
+    </tr>
+    <tr>
+      <th>31</th>
+      <td>kings of leon</td>
+      <td>radioactive</td>
+    </tr>
+    <tr>
+      <th>244653</th>
+      <td>imagine dragons</td>
+      <td>radioactive</td>
+    </tr>
+    <tr>
+      <th>358</th>
+      <td>myslovitz</td>
+      <td>scenariusz dla moich sąsiadów</td>
+    </tr>
+    <tr>
+      <th>57398</th>
+      <td>my riot</td>
+      <td>sen</td>
+    </tr>
+    <tr>
+      <th>19770</th>
+      <td>edyta bartosiewicz</td>
+      <td>sen</td>
+    </tr>
+    <tr>
+      <th>57</th>
+      <td>hey</td>
+      <td>sic!</td>
+    </tr>
+    <tr>
+      <th>22781</th>
+      <td>my chemical romance</td>
+      <td>sing</td>
+    </tr>
+    <tr>
+      <th>1943</th>
+      <td>travis</td>
+      <td>sing</td>
+    </tr>
+    <tr>
+      <th>386363</th>
+      <td>ed sheeran</td>
+      <td>sing</td>
+    </tr>
+    <tr>
+      <th>7566</th>
+      <td>sztywny pal azji</td>
+      <td>spotkanie z ...</td>
+    </tr>
+    <tr>
+      <th>378329</th>
+      <td>artur rojek</td>
+      <td>syreny</td>
+    </tr>
+    <tr>
+      <th>316</th>
+      <td>maanam</td>
+      <td>szare miraże</td>
+    </tr>
+    <tr>
+      <th>398</th>
+      <td>obywatel g.c.</td>
+      <td>tak tak to ja</td>
+    </tr>
+    <tr>
+      <th>305</th>
+      <td>edyta bartosiewicz</td>
+      <td>tatuaż</td>
+    </tr>
+    <tr>
+      <th>269</th>
+      <td>hey</td>
+      <td>teksański</td>
+    </tr>
+    <tr>
+      <th>14</th>
+      <td>republika</td>
+      <td>telefony</td>
+    </tr>
+    <tr>
+      <th>24236</th>
+      <td>kasia kowalska</td>
+      <td>telefony</td>
+    </tr>
+    <tr>
+      <th>1665</th>
+      <td>oddział zamknięty</td>
+      <td>ten wasz świat</td>
+    </tr>
+    <tr>
+      <th>10151</th>
+      <td>kombajn do zbierania kur po wioskach</td>
+      <td>warszawa</td>
+    </tr>
+    <tr>
+      <th>344012</th>
+      <td>kombajn do zbierania kur po wioska</td>
+      <td>warszawa</td>
+    </tr>
+    <tr>
+      <th>265</th>
+      <td>t.love</td>
+      <td>warszawa</td>
+    </tr>
+    <tr>
+      <th>406</th>
+      <td>dżem</td>
+      <td>wehikuł czasu</td>
+    </tr>
+    <tr>
+      <th>107</th>
+      <td>dżem</td>
+      <td>whisky</td>
+    </tr>
+    <tr>
+      <th>343741</th>
+      <td>chylinska</td>
+      <td>winna</td>
+    </tr>
+    <tr>
+      <th>1614</th>
+      <td>agnieszka chylińska</td>
+      <td>winna</td>
+    </tr>
+    <tr>
+      <th>503</th>
+      <td>happysad</td>
+      <td>zanim pójdę</td>
+    </tr>
+    <tr>
+      <th>746</th>
+      <td>hurt</td>
+      <td>załoga g</td>
+    </tr>
+  </tbody>
+</table>
+<p>67 rows × 2 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>ups nagla zamiast 50 utworów zrobiło się 67 :)
+top_50 utworów trzeba inaczej policzyć</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[382]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">artist_title</span> <span class="o">=</span> <span class="n">df</span><span class="p">[[</span><span class="s1">&#39;artist&#39;</span><span class="p">,</span> <span class="s1">&#39;title&#39;</span><span class="p">]]</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+<span class="n">artist_title</span><span class="p">[</span><span class="s1">&#39;arti&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">artist_title</span><span class="p">[</span><span class="s1">&#39;artist&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="n">artist_title</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span>
+<span class="n">played_times</span> <span class="o">=</span> <span class="n">artist_title</span><span class="p">[</span><span class="s1">&#39;arti&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span>
+<span class="n">played_times</span>
+<span class="n">played_times_df</span> <span class="o">=</span> <span class="n">played_times</span><span class="o">.</span><span class="n">to_frame</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s1">&#39;played_times&#39;</span><span class="p">)</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="n">artist_title</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="n">played_times_df</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">,</span> <span class="n">left_on</span><span class="o">=</span><span class="s1">&#39;arti&#39;</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">result</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="s1">&#39;arti&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">result</span><span class="o">.</span><span class="n">drop_duplicates</span><span class="p">(</span><span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="c1"># w pierwszej sześciesiątce nie ma zagranicznych utworów!</span>
+<span class="n">result</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;played_times&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">50</span><span class="p">)</span>
+<span class="n">result</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;played_times&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">head</span><span class="p">(</span><span class="mi">120</span><span class="p">)</span><span class="o">.</span><span class="n">tail</span><span class="p">(</span><span class="mi">60</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[382]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>artist</th>
+      <th>title</th>
+      <th>played_times</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>568</th>
+      <td>oddział zamknięty</td>
+      <td>andzia i ja</td>
+      <td>1350</td>
+    </tr>
+    <tr>
+      <th>164</th>
+      <td>myslovitz</td>
+      <td>z twarzą marilyn monroe</td>
+      <td>1348</td>
+    </tr>
+    <tr>
+      <th>371</th>
+      <td>myslovitz</td>
+      <td>dla ciebie</td>
+      <td>1341</td>
+    </tr>
+    <tr>
+      <th>70</th>
+      <td>sztywny pal azji</td>
+      <td>wieża radości, wieża samotności</td>
+      <td>1329</td>
+    </tr>
+    <tr>
+      <th>425</th>
+      <td>t.love</td>
+      <td>wychowanie</td>
+      <td>1324</td>
+    </tr>
+    <tr>
+      <th>244</th>
+      <td>edyta bartosiewicz</td>
+      <td>skłamałam</td>
+      <td>1322</td>
+    </tr>
+    <tr>
+      <th>96</th>
+      <td>myslovitz</td>
+      <td>peggy brown</td>
+      <td>1313</td>
+    </tr>
+    <tr>
+      <th>1030</th>
+      <td>myslovitz</td>
+      <td>długość dźwięku samotności</td>
+      <td>1311</td>
+    </tr>
+    <tr>
+      <th>1231</th>
+      <td>voo voo</td>
+      <td>nim stanie się tak</td>
+      <td>1304</td>
+    </tr>
+    <tr>
+      <th>163</th>
+      <td>coma</td>
+      <td>daleka droga do domu</td>
+      <td>1297</td>
+    </tr>
+    <tr>
+      <th>6</th>
+      <td>myslovitz</td>
+      <td>sprzedawcy marzeń</td>
+      <td>1287</td>
+    </tr>
+    <tr>
+      <th>179</th>
+      <td>coma</td>
+      <td>spadam</td>
+      <td>1278</td>
+    </tr>
+    <tr>
+      <th>1255</th>
+      <td>edyta bartosiewicz</td>
+      <td>szał</td>
+      <td>1278</td>
+    </tr>
+    <tr>
+      <th>768</th>
+      <td>hey</td>
+      <td>cisza ja i czas</td>
+      <td>1274</td>
+    </tr>
+    <tr>
+      <th>247</th>
+      <td>turbo</td>
+      <td>dorosłe dzieci</td>
+      <td>1267</td>
+    </tr>
+    <tr>
+      <th>696</th>
+      <td>kazik</td>
+      <td>celina</td>
+      <td>1265</td>
+    </tr>
+    <tr>
+      <th>1904</th>
+      <td>o.n.a.</td>
+      <td>znalazłam</td>
+      <td>1262</td>
+    </tr>
+    <tr>
+      <th>266</th>
+      <td>myslovitz</td>
+      <td>chłopcy</td>
+      <td>1257</td>
+    </tr>
+    <tr>
+      <th>264144</th>
+      <td>bastille</td>
+      <td>things we lost in the fire</td>
+      <td>1256</td>
+    </tr>
+    <tr>
+      <th>328323</th>
+      <td>hozier</td>
+      <td>take me to church</td>
+      <td>1254</td>
+    </tr>
+    <tr>
+      <th>154</th>
+      <td>maanam</td>
+      <td>cykady na cykladach</td>
+      <td>1252</td>
+    </tr>
+    <tr>
+      <th>29491</th>
+      <td>kult</td>
+      <td>mieszkam w polsce</td>
+      <td>1252</td>
+    </tr>
+    <tr>
+      <th>6059</th>
+      <td>republika</td>
+      <td>sexy doll</td>
+      <td>1251</td>
+    </tr>
+    <tr>
+      <th>457</th>
+      <td>brygada kryzys</td>
+      <td>to co czujesz</td>
+      <td>1242</td>
+    </tr>
+    <tr>
+      <th>46</th>
+      <td>maanam</td>
+      <td>raz dwa raz dwa</td>
+      <td>1234</td>
+    </tr>
+    <tr>
+      <th>1071</th>
+      <td>ac/dc</td>
+      <td>highway to hell</td>
+      <td>1232</td>
+    </tr>
+    <tr>
+      <th>64</th>
+      <td>perfect</td>
+      <td>lokomotywa z ogłoszenia</td>
+      <td>1226</td>
+    </tr>
+    <tr>
+      <th>161</th>
+      <td>hey</td>
+      <td>zazdrość</td>
+      <td>1225</td>
+    </tr>
+    <tr>
+      <th>1246</th>
+      <td>happysad</td>
+      <td>noc jak każda inna</td>
+      <td>1210</td>
+    </tr>
+    <tr>
+      <th>506</th>
+      <td>ira</td>
+      <td>mój bóg</td>
+      <td>1208</td>
+    </tr>
+    <tr>
+      <th>912</th>
+      <td>the clash</td>
+      <td>should i stay or should i go</td>
+      <td>1193</td>
+    </tr>
+    <tr>
+      <th>60</th>
+      <td>pidżama porno</td>
+      <td>bal u senatora</td>
+      <td>1193</td>
+    </tr>
+    <tr>
+      <th>40</th>
+      <td>steppenwolf</td>
+      <td>born to be wild</td>
+      <td>1186</td>
+    </tr>
+    <tr>
+      <th>98</th>
+      <td>t.love</td>
+      <td>autobusy i tramwaje</td>
+      <td>1181</td>
+    </tr>
+    <tr>
+      <th>1617</th>
+      <td>happysad</td>
+      <td>damy radę</td>
+      <td>1181</td>
+    </tr>
+    <tr>
+      <th>51597</th>
+      <td>foster the people</td>
+      <td>pumped up kicks</td>
+      <td>1178</td>
+    </tr>
+    <tr>
+      <th>65</th>
+      <td>myslovitz</td>
+      <td>acidland</td>
+      <td>1176</td>
+    </tr>
+    <tr>
+      <th>85</th>
+      <td>kult</td>
+      <td>hej czy nie wiecie</td>
+      <td>1176</td>
+    </tr>
+    <tr>
+      <th>349</th>
+      <td>klaus mitffoch</td>
+      <td>jezu jak się cieszę</td>
+      <td>1165</td>
+    </tr>
+    <tr>
+      <th>412</th>
+      <td>tsa</td>
+      <td>51</td>
+      <td>1164</td>
+    </tr>
+    <tr>
+      <th>125</th>
+      <td>tilt</td>
+      <td>runął już ostatni mur</td>
+      <td>1161</td>
+    </tr>
+    <tr>
+      <th>57398</th>
+      <td>my riot</td>
+      <td>sen</td>
+      <td>1160</td>
+    </tr>
+    <tr>
+      <th>174686</th>
+      <td>luxtorpeda</td>
+      <td>hymn</td>
+      <td>1155</td>
+    </tr>
+    <tr>
+      <th>534</th>
+      <td>nirvana</td>
+      <td>smells like teen spirit</td>
+      <td>1144</td>
+    </tr>
+    <tr>
+      <th>115</th>
+      <td>pidżama porno</td>
+      <td>ezoteryczny poznań</td>
+      <td>1138</td>
+    </tr>
+    <tr>
+      <th>114366</th>
+      <td>florence and the machine</td>
+      <td>shake it out</td>
+      <td>1136</td>
+    </tr>
+    <tr>
+      <th>1264</th>
+      <td>joan jett</td>
+      <td>i love rock and roll</td>
+      <td>1132</td>
+    </tr>
+    <tr>
+      <th>1112</th>
+      <td>bon jovi</td>
+      <td>livin' on a prayer</td>
+      <td>1130</td>
+    </tr>
+    <tr>
+      <th>2091</th>
+      <td>happysad</td>
+      <td>milowy las</td>
+      <td>1126</td>
+    </tr>
+    <tr>
+      <th>6062</th>
+      <td>perfect</td>
+      <td>wyspa, drzewo, zamek</td>
+      <td>1125</td>
+    </tr>
+    <tr>
+      <th>185630</th>
+      <td>lady pank</td>
+      <td>wciąż bardziej obcy</td>
+      <td>1124</td>
+    </tr>
+    <tr>
+      <th>293092</th>
+      <td>lipali</td>
+      <td>popioły</td>
+      <td>1120</td>
+    </tr>
+    <tr>
+      <th>1285</th>
+      <td>hey</td>
+      <td>kto tam? kto jest w środku?</td>
+      <td>1115</td>
+    </tr>
+    <tr>
+      <th>96257</th>
+      <td>ira</td>
+      <td>pare chwil</td>
+      <td>1111</td>
+    </tr>
+    <tr>
+      <th>1010</th>
+      <td>kult</td>
+      <td>dziewczyna bez zęba na przedzie</td>
+      <td>1102</td>
+    </tr>
+    <tr>
+      <th>55</th>
+      <td>republika</td>
+      <td>odchodząc</td>
+      <td>1101</td>
+    </tr>
+    <tr>
+      <th>631</th>
+      <td>strachy na lachy</td>
+      <td>twoje oczy lubią mnie</td>
+      <td>1094</td>
+    </tr>
+    <tr>
+      <th>1814</th>
+      <td>bon jovi</td>
+      <td>it's my life</td>
+      <td>1081</td>
+    </tr>
+    <tr>
+      <th>1123</th>
+      <td>lynyrd skynyrd</td>
+      <td>sweet home alabama</td>
+      <td>1079</td>
+    </tr>
+    <tr>
+      <th>1367</th>
+      <td>midnight oil</td>
+      <td>beds are burning</td>
+      <td>1074</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[387]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="s2">&quot;Dataset zawiera dane o utworach zagranych od </span><span class="si">%s</span><span class="s2"> do </span><span class="si">%s</span><span class="s2">. W sumie ok. </span><span class="si">%s</span><span class="s2"> odtworzeń&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">min</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">]),</span> <span class="nb">max</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;datetime&#39;</span><span class="p">]),</span> <span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">))</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[387]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>&#39;Dataset zawiera dane o utworach zagranych od 2010-09-01 00:04:00 do 2018-10-28 23:59:00. W sumie ok. 908343 odtworzeń&#39;</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>ile utworów średnio dziennie jest granych</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[395]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;date_played&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[395]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>title       305.325378
+artist      305.325378
+datetime    305.325378
+dtype: float64</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[396]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;date_played&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="s1">&#39;2018-01-01&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;artist&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[396]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>title</th>
+      <th>date_played</th>
+      <th>datetime</th>
+    </tr>
+    <tr>
+      <th>artist</th>
+      <th></th>
+      <th></th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>perfect</th>
+      <td>1914</td>
+      <td>1914</td>
+      <td>1914</td>
+    </tr>
+    <tr>
+      <th>t.love</th>
+      <td>1911</td>
+      <td>1911</td>
+      <td>1911</td>
+    </tr>
+    <tr>
+      <th>hey</th>
+      <td>1868</td>
+      <td>1868</td>
+      <td>1868</td>
+    </tr>
+    <tr>
+      <th>kult</th>
+      <td>1620</td>
+      <td>1620</td>
+      <td>1620</td>
+    </tr>
+    <tr>
+      <th>lady pank</th>
+      <td>1599</td>
+      <td>1599</td>
+      <td>1599</td>
+    </tr>
+    <tr>
+      <th>myslovitz</th>
+      <td>1592</td>
+      <td>1592</td>
+      <td>1592</td>
+    </tr>
+    <tr>
+      <th>queen</th>
+      <td>1459</td>
+      <td>1459</td>
+      <td>1459</td>
+    </tr>
+    <tr>
+      <th>u2</th>
+      <td>1438</td>
+      <td>1438</td>
+      <td>1438</td>
+    </tr>
+    <tr>
+      <th>dawid podsiadło</th>
+      <td>1428</td>
+      <td>1428</td>
+      <td>1428</td>
+    </tr>
+    <tr>
+      <th>dżem</th>
+      <td>1386</td>
+      <td>1386</td>
+      <td>1386</td>
+    </tr>
+    <tr>
+      <th>maanam</th>
+      <td>1363</td>
+      <td>1363</td>
+      <td>1363</td>
+    </tr>
+    <tr>
+      <th>greta van fleet</th>
+      <td>1273</td>
+      <td>1273</td>
+      <td>1273</td>
+    </tr>
+    <tr>
+      <th>strachy na lachy</th>
+      <td>1258</td>
+      <td>1258</td>
+      <td>1258</td>
+    </tr>
+    <tr>
+      <th>republika</th>
+      <td>1185</td>
+      <td>1185</td>
+      <td>1185</td>
+    </tr>
+    <tr>
+      <th>edyta bartosiewicz</th>
+      <td>1133</td>
+      <td>1133</td>
+      <td>1133</td>
+    </tr>
+    <tr>
+      <th>lenny kravitz</th>
+      <td>1120</td>
+      <td>1120</td>
+      <td>1120</td>
+    </tr>
+    <tr>
+      <th>happysad</th>
+      <td>1098</td>
+      <td>1098</td>
+      <td>1098</td>
+    </tr>
+    <tr>
+      <th>guns n' roses</th>
+      <td>1045</td>
+      <td>1045</td>
+      <td>1045</td>
+    </tr>
+    <tr>
+      <th>red hot chili peppers</th>
+      <td>1044</td>
+      <td>1044</td>
+      <td>1044</td>
+    </tr>
+    <tr>
+      <th>imagine dragons</th>
+      <td>1009</td>
+      <td>1009</td>
+      <td>1009</td>
+    </tr>
+    <tr>
+      <th>aerosmith</th>
+      <td>1003</td>
+      <td>1003</td>
+      <td>1003</td>
+    </tr>
+    <tr>
+      <th>power of trinity</th>
+      <td>957</td>
+      <td>957</td>
+      <td>957</td>
+    </tr>
+    <tr>
+      <th>linkin park</th>
+      <td>950</td>
+      <td>950</td>
+      <td>950</td>
+    </tr>
+    <tr>
+      <th>o.n.a.</th>
+      <td>926</td>
+      <td>926</td>
+      <td>926</td>
+    </tr>
+    <tr>
+      <th>ac/dc</th>
+      <td>900</td>
+      <td>900</td>
+      <td>900</td>
+    </tr>
+    <tr>
+      <th>kazik</th>
+      <td>893</td>
+      <td>893</td>
+      <td>893</td>
+    </tr>
+    <tr>
+      <th>bon jovi</th>
+      <td>889</td>
+      <td>889</td>
+      <td>889</td>
+    </tr>
+    <tr>
+      <th>muse</th>
+      <td>868</td>
+      <td>868</td>
+      <td>868</td>
+    </tr>
+    <tr>
+      <th>florence and the machine</th>
+      <td>856</td>
+      <td>856</td>
+      <td>856</td>
+    </tr>
+    <tr>
+      <th>green day</th>
+      <td>774</td>
+      <td>774</td>
+      <td>774</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+      <td>...</td>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>simon &amp; garfunkel</th>
+      <td>3</td>
+      <td>3</td>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>the smiths</th>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>meskie granie orkiestra 2018/kortez</th>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>neil young</th>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>asia</th>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>kylie minogue</th>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>nick cave</th>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>rage against the machine</th>
+      <td>2</td>
+      <td>2</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>dexy's midnight runners</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>emerson, lake &amp; palmer</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>starship</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>electric light orchestra</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>the blues brothers band</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>supertramp</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>sinéad o'connor</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>bad company</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>the moody blues</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>emf</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>morrissey</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>frank zappa</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>monty python</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>glenn frey</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>robert palmer</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>hootie and the blowfish</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>john lee hooker/carlos santana</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>usa for africa</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>phil collins</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>larry mullen</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>leonard cohen</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>george harrison</th>
+      <td>1</td>
+      <td>1</td>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+<p>413 rows × 3 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[412]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">most_popular_artists_2018</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;date_played&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="s1">&#39;2018-01-01&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;artist&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[413]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">most_popular_artists_2018</span> <span class="o">=</span> <span class="n">most_popular_artists_2018</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;date_played&#39;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[416]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">most_popular_artists_2018</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;played_times&#39;</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[418]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">most_popular_artists_2018</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[418]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>played_times</th>
+    </tr>
+    <tr>
+      <th>artist</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>perfect</th>
+      <td>1914</td>
+    </tr>
+    <tr>
+      <th>t.love</th>
+      <td>1911</td>
+    </tr>
+    <tr>
+      <th>hey</th>
+      <td>1868</td>
+    </tr>
+    <tr>
+      <th>kult</th>
+      <td>1620</td>
+    </tr>
+    <tr>
+      <th>lady pank</th>
+      <td>1599</td>
+    </tr>
+    <tr>
+      <th>myslovitz</th>
+      <td>1592</td>
+    </tr>
+    <tr>
+      <th>queen</th>
+      <td>1459</td>
+    </tr>
+    <tr>
+      <th>u2</th>
+      <td>1438</td>
+    </tr>
+    <tr>
+      <th>dawid podsiadło</th>
+      <td>1428</td>
+    </tr>
+    <tr>
+      <th>dżem</th>
+      <td>1386</td>
+    </tr>
+    <tr>
+      <th>maanam</th>
+      <td>1363</td>
+    </tr>
+    <tr>
+      <th>greta van fleet</th>
+      <td>1273</td>
+    </tr>
+    <tr>
+      <th>strachy na lachy</th>
+      <td>1258</td>
+    </tr>
+    <tr>
+      <th>republika</th>
+      <td>1185</td>
+    </tr>
+    <tr>
+      <th>edyta bartosiewicz</th>
+      <td>1133</td>
+    </tr>
+    <tr>
+      <th>lenny kravitz</th>
+      <td>1120</td>
+    </tr>
+    <tr>
+      <th>happysad</th>
+      <td>1098</td>
+    </tr>
+    <tr>
+      <th>guns n' roses</th>
+      <td>1045</td>
+    </tr>
+    <tr>
+      <th>red hot chili peppers</th>
+      <td>1044</td>
+    </tr>
+    <tr>
+      <th>imagine dragons</th>
+      <td>1009</td>
+    </tr>
+    <tr>
+      <th>aerosmith</th>
+      <td>1003</td>
+    </tr>
+    <tr>
+      <th>power of trinity</th>
+      <td>957</td>
+    </tr>
+    <tr>
+      <th>linkin park</th>
+      <td>950</td>
+    </tr>
+    <tr>
+      <th>o.n.a.</th>
+      <td>926</td>
+    </tr>
+    <tr>
+      <th>ac/dc</th>
+      <td>900</td>
+    </tr>
+    <tr>
+      <th>kazik</th>
+      <td>893</td>
+    </tr>
+    <tr>
+      <th>bon jovi</th>
+      <td>889</td>
+    </tr>
+    <tr>
+      <th>muse</th>
+      <td>868</td>
+    </tr>
+    <tr>
+      <th>florence and the machine</th>
+      <td>856</td>
+    </tr>
+    <tr>
+      <th>green day</th>
+      <td>774</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>simon &amp; garfunkel</th>
+      <td>3</td>
+    </tr>
+    <tr>
+      <th>the smiths</th>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>meskie granie orkiestra 2018/kortez</th>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>neil young</th>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>asia</th>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>kylie minogue</th>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>nick cave</th>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>rage against the machine</th>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>dexy's midnight runners</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>emerson, lake &amp; palmer</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>starship</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>electric light orchestra</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>the blues brothers band</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>supertramp</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>sinéad o'connor</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>bad company</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>the moody blues</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>emf</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>morrissey</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>frank zappa</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>monty python</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>glenn frey</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>robert palmer</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>hootie and the blowfish</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>john lee hooker/carlos santana</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>usa for africa</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>phil collins</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>larry mullen</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>leonard cohen</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>george harrison</th>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+<p>413 rows × 1 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
+</div><div class="inner_cell">
+<div class="text_cell_render border-box-sizing rendered_html">
+<p>Sprawdźmy teraz kiedy zaczęto grać małomiasteczkowego, ile razy go zagrano, jaka była częstotliwość w rozbiciu na dnie</p>
+
+</div>
+</div>
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[432]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_2018</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;date_played&#39;</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="s1">&#39;2018-01-01&#39;</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[432]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>title          92619
+artist         92619
+date_played    92619
+datetime       92619
+dtype: int64</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[450]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">first_time</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">df_2018</span><span class="p">[</span><span class="n">df_2018</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;małomiasteczkowy&#39;</span><span class="p">][</span><span class="s1">&#39;datetime&#39;</span><span class="p">])</span>
+<span class="n">first_time</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[450]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Timestamp(&#39;2018-06-10 02:33:00&#39;)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[451]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">last_time</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">df_2018</span><span class="p">[</span><span class="n">df_2018</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;małomiasteczkowy&#39;</span><span class="p">][</span><span class="s1">&#39;datetime&#39;</span><span class="p">])</span>
+<span class="n">last_time</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[451]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>Timestamp(&#39;2018-10-19 05:50:00&#39;)</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[434]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">times_played</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">df_2018</span><span class="p">[</span><span class="n">df_2018</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;małomiasteczkowy&#39;</span><span class="p">])</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[452]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">times_played</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[452]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>480</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[445]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_malomiasteczkowy_times_played</span> <span class="o">=</span> <span class="n">df_2018</span><span class="p">[</span><span class="n">df_2018</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="s1">&#39;małomiasteczkowy&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">groupby</span><span class="p">(</span><span class="s1">&#39;date_played&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">count</span><span class="p">()</span>
+<span class="n">df_malomiasteczkowy_times_played</span> <span class="o">=</span> <span class="n">df_malomiasteczkowy_times_played</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;title&#39;</span><span class="p">,</span> <span class="s1">&#39;artist&#39;</span><span class="p">])</span>
+<span class="n">df_malomiasteczkowy_times_played</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;times_played&#39;</span><span class="p">]</span> 
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[449]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df_malomiasteczkowy_times_played</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="n">by</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;times_played&#39;</span><span class="p">],</span> <span class="n">ascending</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[449]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>times_played</th>
+    </tr>
+    <tr>
+      <th>date_played</th>
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2018-08-07</th>
+      <td>9</td>
+    </tr>
+    <tr>
+      <th>2018-08-05</th>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>2018-08-09</th>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>2018-08-16</th>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>2018-08-13</th>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>2018-08-17</th>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>2018-08-18</th>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>2018-08-12</th>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>2018-08-10</th>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>2018-08-19</th>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>2018-08-15</th>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>2018-08-20</th>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>2018-08-21</th>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>2018-08-22</th>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>2018-08-08</th>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>2018-08-23</th>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>2018-08-06</th>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>2018-08-14</th>
+      <td>8</td>
+    </tr>
+    <tr>
+      <th>2018-08-11</th>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>2018-06-20</th>
+      <td>7</td>
+    </tr>
+    <tr>
+      <th>2018-06-29</th>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>2018-08-04</th>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>2018-07-26</th>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>2018-07-25</th>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>2018-07-24</th>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>2018-07-29</th>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>2018-07-30</th>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>2018-07-21</th>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>2018-07-31</th>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>2018-08-01</th>
+      <td>6</td>
+    </tr>
+    <tr>
+      <th>...</th>
+      <td>...</td>
+    </tr>
+    <tr>
+      <th>2018-09-18</th>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>2018-10-10</th>
+      <td>2</td>
+    </tr>
+    <tr>
+      <th>2018-10-03</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2018-10-06</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2018-10-07</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2018-10-09</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2018-10-17</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2018-10-12</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2018-10-13</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2018-10-14</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2018-10-16</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2018-10-18</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2018-09-30</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2018-10-02</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2018-09-10</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2018-09-29</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2018-09-28</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2018-09-26</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2018-09-25</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2018-09-23</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2018-09-22</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2018-09-21</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2018-09-19</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2018-09-16</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2018-09-14</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2018-09-13</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2018-09-12</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2018-09-08</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2018-09-07</th>
+      <td>1</td>
+    </tr>
+    <tr>
+      <th>2018-10-19</th>
+      <td>1</td>
+    </tr>
+  </tbody>
+</table>
+<p>109 rows × 1 columns</p>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+ 
+
+
+<script type="text/javascript">if (!document.getElementById('mathjaxscript_pelican_#%@#$@#')) {
+    var mathjaxscript = document.createElement('script');
+    mathjaxscript.id = 'mathjaxscript_pelican_#%@#$@#';
+    mathjaxscript.type = 'text/javascript';
+    mathjaxscript.src = '//cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML';
+    mathjaxscript[(window.opera ? "innerHTML" : "text")] =
+        "MathJax.Hub.Config({" +
+        "    config: ['MMLorHTML.js']," +
+        "    TeX: { extensions: ['AMSmath.js','AMSsymbols.js','noErrors.js','noUndefined.js'], equationNumbers: { autoNumber: 'AMS' } }," +
+        "    jax: ['input/TeX','input/MathML','output/HTML-CSS']," +
+        "    extensions: ['tex2jax.js','mml2jax.js','MathMenu.js','MathZoom.js']," +
+        "    displayAlign: 'center'," +
+        "    displayIndent: '0em'," +
+        "    showMathMenu: true," +
+        "    tex2jax: { " +
+        "        inlineMath: [ ['$','$'] ], " +
+        "        displayMath: [ ['$$','$$'] ]," +
+        "        processEscapes: true," +
+        "        preview: 'TeX'," +
+        "    }, " +
+        "    'HTML-CSS': { " +
+        " linebreaks: { automatic: true, width: '95% container' }, " +
+        "        styles: { '.MathJax_Display, .MathJax .mo, .MathJax .mi, .MathJax .mn': {color: 'black ! important'} }" +
+        "    } " +
+        "}); ";
+    (document.body || document.getElementsByTagName('head')[0]).appendChild(mathjaxscript);
+}
+</script>
+                </article>
+            </aside><!-- /#featured -->
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="http://getpelican.com/">Pelican</a></li>
+                            <li><a href="http://python.org/">Python.org</a></li>
+                            <li><a href="http://jinja.pocoo.org/">Jinja2</a></li>
+                            <li><a href="#">You can modify those links in your config file</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="http://apqlzm.github.io/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="#">You can add links in your config file</a></li>
+                            <li><a href="#">Another social link</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Proudly powered by <a href="http://getpelican.com/">Pelican</a>, which takes great advantage of <a href="http://python.org">Python</a>.
+                </address><!-- /#about -->
+
+                <p>The theme is by <a href="http://coding.smashingmagazine.com/2009/08/04/designing-a-html-5-layout-from-scratch/">Smashing Magazine</a>, thanks!</p>
+        </footer><!-- /#contentinfo -->
+
+</body>
+</html>
